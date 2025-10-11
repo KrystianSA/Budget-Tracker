@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 public enum AppTheme {
     public enum ColorToken: String {
@@ -20,25 +21,25 @@ public enum AppTheme {
         }()
 
         switch token {
-        case .primary50:  return Color("primary/50", bundle: bundle)
-        case .primary100: return Color("primary/100", bundle: bundle)
-        case .primary200: return Color("primary/200", bundle: bundle)
-        case .primary300: return Color("primary/300", bundle: bundle)
-        case .primary400: return Color("primary/400", bundle: bundle)
-        case .primary500: return Color("primary/500", bundle: bundle)
-        case .primary600: return Color("primary/600", bundle: bundle)
-        case .primary700: return Color("primary/700", bundle: bundle)
-        case .primary800: return Color("primary/800", bundle: bundle)
-        case .primary900: return Color("primary/900", bundle: bundle)
-        case .accent500:  return Color("accent/500", bundle: bundle)
-        case .success600: return Color("success/600", bundle: bundle)
-        case .warning600: return Color("warning/600", bundle: bundle)
-        case .error600:   return Color("error/600", bundle: bundle)
-        case .textPrimary:   return Color("text/primary", bundle: bundle)
-        case .textSecondary:  return Color("text/secondary", bundle: bundle)
-        case .surfaceBase:    return Color("surface/base", bundle: bundle)
-        case .surfaceCard:    return Color("surface/card", bundle: bundle)
-        case .borderMuted:    return Color("border/muted", bundle: bundle)
+        case .primary50:  return Color.named("primary/50", fallback: Color(red: 0.97, green: 0.98, blue: 1.0))
+        case .primary100: return Color.named("primary/100", fallback: Color(red: 0.94, green: 0.97, blue: 1.0))
+        case .primary200: return Color.named("primary/200", fallback: Color(red: 0.88, green: 0.94, blue: 1.0))
+        case .primary300: return Color.named("primary/300", fallback: Color(red: 0.78, green: 0.90, blue: 0.98))
+        case .primary400: return Color.named("primary/400", fallback: Color(red: 0.62, green: 0.84, blue: 0.97))
+        case .primary500: return Color.named("primary/500", fallback: Color(red: 0.40, green: 0.74, blue: 0.96))
+        case .primary600: return Color.named("primary/600", fallback: Color(red: 0.15, green: 0.39, blue: 0.92))
+        case .primary700: return Color.named("primary/700", fallback: Color(red: 0.11, green: 0.31, blue: 0.85))
+        case .primary800: return Color.named("primary/800", fallback: Color(red: 0.09, green: 0.27, blue: 0.75))
+        case .primary900: return Color.named("primary/900", fallback: Color(red: 0.08, green: 0.20, blue: 0.60))
+        case .accent500:  return Color.named("accent/500", fallback: .orange)
+        case .success600: return Color.named("success/600", fallback: .green)
+        case .warning600: return Color.named("warning/600", fallback: .yellow)
+        case .error600:   return Color.named("error/600", fallback: .red)
+        case .textPrimary:   return Color.named("text/primary", fallback: Color(red: 0.043, green: 0.071, blue: 0.125))
+        case .textSecondary:  return Color.named("text/secondary", fallback: Color(red: 0.20, green: 0.25, blue: 0.34))
+        case .surfaceBase:    return Color.named("surface/base", fallback: Color(red: 0.97, green: 0.98, blue: 0.99))
+        case .surfaceCard:    return Color.named("surface/card", fallback: .white)
+        case .borderMuted:    return Color.named("border/muted", fallback: Color(red: 0.89, green: 0.91, blue: 0.94))
         }
     }
 }
