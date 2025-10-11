@@ -123,7 +123,6 @@ struct Budget_TrackerApp: App {
         WindowGroup {
             MainContainerView()
                 .environmentObject(LanguageManager())
-                .tint(AppTheme.color(.primary600))
                 .preferredColorScheme(.dark)
                 .onAppear {
                     // Clear all data on every app launch for clean testing
