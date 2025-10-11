@@ -124,7 +124,7 @@ struct Budget_TrackerApp: App {
             MainContainerView()
                 .environmentObject(LanguageManager())
                 .tint(AppTheme.color(.primary600))
-                .preferredColorScheme(.dark)
+                .preferredColorScheme(.light)
                 .onAppear {
                     // Clear all data on every app launch for clean testing
                     clearAllData(container: sharedModelContainer)
