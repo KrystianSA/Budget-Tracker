@@ -4,21 +4,21 @@ import SwiftUI
 func setupAppearance() {
     let nav = UINavigationBarAppearance()
     nav.configureWithOpaqueBackground()
-    nav.backgroundColor = UIColor.named("surface/card", fallback: .white)
+    nav.backgroundColor = UIColor.app("surface/card")
     nav.titleTextAttributes = [
-        .foregroundColor: UIColor.named("text/primary", fallback: .black)
+        .foregroundColor: UIColor.app("text/primary")
     ]
-    nav.shadowColor = UIColor.named("border/muted", fallback: .systemGray5)
+    nav.shadowColor = UIColor.app("border/muted")
 
     UINavigationBar.appearance().standardAppearance = nav
     UINavigationBar.appearance().scrollEdgeAppearance = nav
-    UINavigationBar.appearance().tintColor = UIColor.named("primary/600")
+    UINavigationBar.appearance().tintColor = UIColor.app("primary/600")
 
     let tab = UITabBarAppearance()
     tab.configureWithOpaqueBackground()
-    tab.backgroundColor = UIColor.named("surface/base", fallback: .white)
-    tab.stackedLayoutAppearance.selected.iconColor = UIColor.named("primary/600")
-    tab.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.named("primary/700")]
+    tab.backgroundColor = UIColor.app("surface/base")
+    tab.stackedLayoutAppearance.selected.iconColor = UIColor.app("primary/600")
+    tab.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.app("primary/700")]
     UITabBar.appearance().standardAppearance = tab
     UITabBar.appearance().scrollEdgeAppearance = tab
 }

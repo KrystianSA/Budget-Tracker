@@ -122,9 +122,8 @@ struct Budget_TrackerApp: App {
     var body: some Scene {
         WindowGroup {
             MainContainerView()
-                .debugHit("Root")
                 .environmentObject(LanguageManager())
-                .preferredColorScheme(.dark)
+                .preferredColorScheme(.light)
                 .onAppear {
                     // Clear all data on every app launch for clean testing
                     clearAllData(container: sharedModelContainer)
