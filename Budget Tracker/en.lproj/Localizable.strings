@@ -1,0 +1,191 @@
+/* English Localization */
+
+/* General */
+"settings" = "Settings";
+"cancel" = "Cancel";
+"save" = "Save";
+"done" = "Done";
+"ok" = "OK";
+"close" = "Close";
+"edit" = "Edit";
+"delete" = "Delete";
+"add" = "Add";
+"update" = "Update";
+
+/* Budget */
+"set_budget" = "Set Budget";
+"monthly_budget" = "Monthly Budget";
+"budget_settings" = "Budget Settings";
+
+/* Expenses */
+"expenses_to_pay" = "Expenses to Pay";
+"add_expense" = "Add Expense";
+"expense_name" = "Expense Name";
+"amount" = "Amount";
+"spent" = "Spent";
+"unpaid" = "Unpaid";
+"progress" = "Progress";
+
+/* Recurring Expenses */
+"recurring_expenses" = "Recurring Expenses";
+"manage_recurring_expenses" = "Manage Recurring Expenses";
+"add_recurring_expense" = "Add Recurring Expense";
+"no_recurring_expenses" = "No Recurring Expenses";
+"add_first_recurring_expense" = "Add First Recurring Expense";
+
+/* Notes */
+"notes" = "Notes";
+"manage_notes" = "Manage Notes";
+"add_note_general" = "Add Note";
+"add_note_button" = "Add Note";
+"subject" = "Subject";
+"subject_placeholder" = "Enter subject";
+"content" = "Content";
+"content_placeholder" = "Enter content";
+"all" = "All";
+"general" = "General";
+"fixed" = "Fixed";
+"custom" = "Custom";
+"no_notes" = "No Notes";
+"add_first_note" = "Add First Note";
+"delete_note_confirmation" = "Are you sure you want to delete this note?";
+
+/* Transactions */
+"custom_transactions" = "Custom Transactions";
+"add_transaction" = "Add Transaction";
+
+/* Monthly Info */
+"monthly_info" = "Monthly Info";
+"monthly_info_help_title" = "Monthly Info";
+"monthly_info_help_message" = "Here you can add additional info about your transactions however you like. For example: 'I saved this month' with an amount, or any other custom entry related to your money.";
+
+/* Payments */
+"add_payment" = "Add Payment";
+"expense_will_be_marked_paid" = "This expense will be marked as paid";
+"only_digits_allowed" = "Only digits allowed";
+
+/* Export */
+"export_data" = "Export Data";
+"select_date_range" = "Select Date Range";
+"start_date" = "Start Date";
+"end_date" = "End Date";
+"export_format" = "Export Format";
+"pdf" = "PDF";
+"pdf_document_with_charts" = "PDF document with charts";
+"excel" = "Excel";
+"excel_spreadsheet" = "Excel spreadsheet";
+"csv" = "CSV";
+"csv_text_file" = "CSV text file";
+"exporting" = "Exporting...";
+"export_completed" = "Export Completed";
+"pdf_generated" = "PDF generated successfully";
+"pdf_save_error" = "Error saving PDF";
+"pdf_creation_error" = "Error creating PDF";
+"excel_generated" = "Excel file generated successfully";
+"excel_save_error" = "Error saving Excel file";
+"excel_creation_error" = "Error creating Excel file";
+"csv_generated" = "CSV file generated successfully";
+"csv_save_error" = "Error saving CSV file";
+"csv_creation_error" = "Error creating CSV file";
+"financial_report" = "Financial Report";
+"expenses_section" = "Expenses Section";
+"custom_transactions_section" = "Custom Transactions Section";
+"recurring_expenses_section" = "Recurring Expenses Section";
+
+/* Reminders */
+"select_reminder_date" = "Select Reminder Date";
+
+/* Common Items */
+"rent" = "Rent";
+
+/* Language Selection */
+"language_selection" = "Language Selection";
+"polish" = "Polish";
+"english" = "English";
+
+/* Theme Selection */
+"theme_selection" = "Theme Selection";
+"light_theme" = "Light";
+"dark_theme" = "Dark";
+
+/* Main App Strings */
+"money_to_spend" = "Money to spend";
+"total_expenses" = "Total expenses";
+"no_expenses_today" = "No expenses for this day";
+"add_expense_title" = "Add expense";
+"amount_label" = "Amount";
+"expense_name_optional" = "Expense name (optional)";
+"name_placeholder" = "Name";
+"save_button" = "Save";
+"edit_expense_title" = "Edit expense";
+"amount_placeholder" = "0.00";
+"expense_name_label" = "Expense name";
+"save_changes" = "Save changes";
+"only_digits_period_comma" = "Only digits, period or comma are allowed";
+"remaining_monthly_budget" = "Remaining monthly budget";
+"budget_exceeded_warning" = "Warning, monthly budget exceeded";
+"budget_exceeded_message" = "You have exceeded your monthly budget by";
+"understand_button" = "I understand";
+"edit_label" = "Edit";
+"delete_label" = "Delete";
+"confirm_deletion" = "Confirm Deletion";
+"delete_confirmation_message" = "Are you sure you want to delete this expense?";
+"expense_default_name" = "Expense";
+
+/* Payment Modal */
+"due_date" = "Due date";
+"due_date_placeholder" = "e.g. Rent, Netflix";
+"reminders_optional" = "Reminders (optional)";
+"select_date" = "Select date";
+"select_reminder_date" = "Select reminder date";
+
+/* Additional Keys */
+"add_expense_to_pay" = "Add expense to pay";
+
+/* New Keys for Comprehensive Localization */
+"add_partial_amount" = "Add partial amount";
+"mark_as_unpaid" = "Mark as unpaid";
+"mark_as_paid" = "Mark as paid";
+"delete_expense" = "Delete expense";
+"expense_details" = "Expense details";
+"total_amount" = "Total amount";
+"paid_in_full" = "Paid in full";
+"set_monthly_budget" = "Set monthly budget";
+"edit_recurring_expense" = "Edit recurring expense";
+"edit_note_content" = "Change your note content";
+"enter_note_subject" = "Enter note subject";
+
+/* Daily Budget Keys */
+"remaining_daily_budget" = "Remaining daily budget";
+
+/* Recurring Expenses Keys */
+"paid_amount" = "Paid amount";
+
+/* Budget Details Modal Keys */
+"budget_details" = "Budget Details";
+"daily_budget_description" = "Daily budget calculated from remaining monthly budget divided by remaining days in the month";
+
+/* Monthly Summary */
+"monthly_summary_title" = "Monthly Summary";
+"delete_section_title" = "Delete section?";
+"delete_section_message" = "This action cannot be undone.";
+
+/* Monthly Summary Empty State & Modals */
+"no_sections_message" = "No sections. Add the first one.";
+"new_section_title" = "New section";
+"field_title" = "Title";
+"field_title_placeholder" = "e.g. Food";
+"field_value" = "Value";
+"field_note_optional" = "Note (optional)";
+"add_section_button" = "Add section";
+"edit_section_title" = "Edit section";
+"cancel" = "Cancel"; /* ensure exists */
+"calculate" = "Calculate";
+"current_value" = "Current value";
+"change_by" = "Change by";
+"subtract" = "Subtract";
+"show_more" = "Show more";
+"show_less" = "Show less";
+"edit_blocked_title" = "Editing blocked";
+"edit_blocked_message" = "This section has history. You can only Calculate or Delete.";
+"amount_locked_reason" = "Amount can't be edited because this section has history.";

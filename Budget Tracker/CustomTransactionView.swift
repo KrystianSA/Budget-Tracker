@@ -1,0 +1,153 @@
+import SwiftUI
+import SwiftData
+
+struct CustomTransactionView: View {
+    @Binding var isPresented: Bool
+    let modelContext: ModelContext
+    @EnvironmentObject var languageManager: LanguageManager
+    @State private var transactionName: String = ""
+    @State private var transactionAmount: String = ""
+    @State private var isAmountValid: Bool = true
+    
+    private func validateAmount(_ input: String) {
+        // Allow only digits, single period, and single comma
+        let allowedCharacters = CharacterSet(charactersIn: "0123456789.,")
+        let inputCharacterSet = CharacterSet(charactersIn: input)
+        
+        // Check if input contains only allowed characters
+        let isValidCharacters = inputCharacterSet.isSubset(of: allowedCharacters)
+        
+        // Check for multiple periods or commas
+        let periodCount = input.filter { $0 == "." }.count
+        let commaCount = input.filter { $0 == "," }.count
+        
+        let isValidFormat = periodCount <= 1 && commaCount <= 1
+        
+        isAmountValid = isValidCharacters && isValidFormat
+    }
+    
+    private func saveCustomTransaction() {
+        // Normalize decimal separators for proper parsing
+        let normalizedAmount = transactionAmount.replacingOccurrences(of: ",", with: ".")
+        if let amount = Double(normalizedAmount), amount > 0, !transactionName.isEmpty {
+            let newTransaction = CustomTransaction(name: transactionName, amount: amount)
+            modelContext.insert(newTransaction)
+            
+            do {
+                try modelContext.save()
+                isPresented = false
+            } catch {
+                print("Error saving custom transaction: \(error)")
+            }
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    isPresented = false
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            VStack(spacing: 24) {
+                // Close button positioned at the top right
+                HStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        isPresented = false
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.textSecondary)
+                            .font(.system(size: 24))
+                    }
+                }
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("expense_name_label".localized(using: languageManager))
+                        .foregroundColor(.textPrimary)
+                        .font(.system(size: 16, weight: .medium))
+                    
+                    TextField("name_placeholder".localized(using: languageManager), text: $transactionName)
+                        .foregroundColor(.textPrimary)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(
+                            Rectangle()
+                                .fill(Color.cardBackground)
+                                .overlay(
+                                    Rectangle()
+                                        .frame(height: 1)
+                                        .foregroundColor(.deepMaroon)
+                                        .offset(y: 20)
+                                )
+                        )
+                }
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("amount_label".localized(using: languageManager))
+                        .foregroundColor(.textPrimary)
+                        .font(.system(size: 16, weight: .medium))
+                    
+                    TextField("0.00", text: $transactionAmount)
+                        .keyboardType(.decimalPad)
+                        .foregroundColor(.textPrimary)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(
+                            Rectangle()
+                                .fill(Color.cardBackground)
+                                .overlay(
+                                    Rectangle()
+                                        .frame(height: 1)
+                                        .foregroundColor(.deepMaroon)
+                                        .offset(y: 20)
+                                )
+                        )
+                        .onChange(of: transactionAmount) { _, newValue in
+                            validateAmount(newValue)
+                        }
+                    
+                    // Error message
+                    if !isAmountValid {
+                        Text("Tylko cyfry, kropka lub przecinek są dozwolone.")
+                            .foregroundColor(.red)
+                            .font(.system(size: 12, weight: .medium))
+                            .padding(.leading, 4)
+                    }
+                }
+                
+                Button(action: {
+                    saveCustomTransaction()
+                }) {
+                    Text("save_button".localized(using: languageManager))
+                        .foregroundColor(.textPrimary)
+                        .font(.system(size: 18, weight: .semibold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.deepMaroon)
+                        )
+                }
+                .disabled(transactionName.isEmpty || transactionAmount.isEmpty || !isAmountValid)
+            }
+            .padding(24)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.darkBackground)
+                    .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
+            )
+            .padding(.horizontal, 40)
+        }
+    }
+}
+
+#Preview {
+    CustomTransactionView(
+        isPresented: .constant(true),
+        modelContext: try! ModelContainer(for: CustomTransaction.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true)).mainContext
+    )
+}

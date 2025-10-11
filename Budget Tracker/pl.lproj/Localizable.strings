@@ -1,0 +1,190 @@
+/* Polish Localization */
+
+/* General */
+"settings" = "Ustawienia";
+"cancel" = "Anuluj";
+"save" = "Zapisz";
+"done" = "Gotowe";
+"ok" = "OK";
+"close" = "Zamknij";
+"edit" = "Edytuj";
+"delete" = "Usuń";
+"add" = "Dodaj";
+"update" = "Aktualizuj";
+
+/* Budget */
+"set_budget" = "Ustaw budżet";
+"monthly_budget" = "Budżet miesięczny";
+"budget_settings" = "Ustawienia budżetu";
+
+/* Expenses */
+"expenses_to_pay" = "Wydatki do zapłacenia";
+"add_expense" = "Dodaj wydatek";
+"expense_name" = "Nazwa wydatku";
+"amount" = "Kwota";
+"spent" = "Wydano";
+"unpaid" = "Nieopłacone";
+"progress" = "Postęp";
+
+/* Recurring Expenses */
+"recurring_expenses" = "Wydatki cykliczne";
+"manage_recurring_expenses" = "Zarządzaj wydatkami cyklicznymi";
+"add_recurring_expense" = "Dodaj wydatek cykliczny";
+"no_recurring_expenses" = "Brak wydatków cyklicznych";
+"add_first_recurring_expense" = "Dodaj pierwszy wydatek cykliczny";
+
+/* Notes */
+"notes" = "Notatki";
+"manage_notes" = "Zarządzaj notatkami";
+"add_note_general" = "Dodaj notatkę";
+"add_note_button" = "Dodaj notatkę";
+"subject" = "Temat";
+"subject_placeholder" = "Wprowadź temat";
+"content" = "Treść";
+"content_placeholder" = "Wprowadź treść";
+"all" = "Wszystkie";
+"general" = "Ogólne";
+"fixed" = "Stałe";
+"custom" = "Niestandardowe";
+"no_notes" = "Brak notatek";
+"add_first_note" = "Dodaj pierwszą notatkę";
+"delete_note_confirmation" = "Czy na pewno chcesz usunąć tę notatkę?";
+
+/* Transactions */
+"custom_transactions" = "Transakcje niestandardowe";
+"add_transaction" = "Dodaj transakcję";
+
+/* Informacje Miesięczne */
+"monthly_info" = "Informacje miesięczne";
+"monthly_info_help_title" = "Informacje miesięczne";
+"monthly_info_help_message" = "Tutaj możesz dodawać dodatkowe informacje o swoich transakcjach tak, jak chcesz. Na przykład: 'Oszczędziłem w tym miesiącu' z kwotą lub dowolny inny wpis dotyczący Twoich pieniędzy.";
+
+/* Payments */
+"add_payment" = "Dodaj płatność";
+"expense_will_be_marked_paid" = "Ten wydatek zostanie oznaczony jako opłacony";
+"only_digits_allowed" = "Dozwolone tylko cyfry";
+
+/* Export */
+"export_data" = "Eksportuj dane";
+"select_date_range" = "Wybierz zakres dat";
+"start_date" = "Data początkowa";
+"end_date" = "Data końcowa";
+"export_format" = "Format eksportu";
+"pdf" = "PDF";
+"pdf_document_with_charts" = "Dokument PDF z wykresami";
+"excel" = "Excel";
+"excel_spreadsheet" = "Arkusz kalkulacyjny Excel";
+"csv" = "CSV";
+"csv_text_file" = "Plik tekstowy CSV";
+"exporting" = "Eksportowanie...";
+"export_completed" = "Eksport zakończony";
+"pdf_generated" = "PDF został wygenerowany pomyślnie";
+"pdf_save_error" = "Błąd podczas zapisywania PDF";
+"pdf_creation_error" = "Błąd podczas tworzenia PDF";
+"excel_generated" = "Plik Excel został wygenerowany pomyślnie";
+"excel_save_error" = "Błąd podczas zapisywania pliku Excel";
+"excel_creation_error" = "Błąd podczas tworzenia pliku Excel";
+"csv_generated" = "Plik CSV został wygenerowany pomyślnie";
+"csv_save_error" = "Błąd podczas zapisywania pliku CSV";
+"csv_creation_error" = "Błąd podczas tworzenia pliku CSV";
+"financial_report" = "Raport finansowy";
+"expenses_section" = "Sekcja wydatków";
+"custom_transactions_section" = "Sekcja transakcji niestandardowych";
+"recurring_expenses_section" = "Sekcja wydatków cyklicznych";
+
+/* Reminders */
+"select_reminder_date" = "Wybierz datę przypomnienia";
+
+/* Common Items */
+"rent" = "Czynsz";
+
+/* Language Selection */
+"language_selection" = "Wybór języka";
+"polish" = "Polski";
+"english" = "Angielski";
+
+/* Theme Selection */
+"theme_selection" = "Wybór motywu";
+"light_theme" = "Jasny";
+"dark_theme" = "Ciemny";
+
+/* Main App Strings */
+"money_to_spend" = "Pieniądze do wydania";
+"total_expenses" = "Łączne wydatki";
+"no_expenses_today" = "Brak wydatków na ten dzień";
+"add_expense_title" = "Dodaj wydatek";
+"amount_label" = "Kwota";
+"expense_name_optional" = "Nazwa wydatku (opcjonalnie)";
+"name_placeholder" = "Nazwa";
+"save_button" = "Zapisz";
+"edit_expense_title" = "Edytuj wydatek";
+"amount_placeholder" = "0.00";
+"expense_name_label" = "Nazwa wydatku";
+"save_changes" = "Zapisz zmiany";
+"only_digits_period_comma" = "Tylko cyfry, kropka lub przecinek są dozwolone";
+"remaining_monthly_budget" = "Pozostały budżet miesięczny";
+"budget_exceeded_warning" = "Uwaga, przekroczono budżet miesięczny";
+"budget_exceeded_message" = "Przekroczyłeś swój miesięczny budżet o";
+"understand_button" = "Rozumiem";
+"edit_label" = "Edytuj";
+"delete_label" = "Usuń";
+"confirm_deletion" = "Potwierdź usunięcie";
+"delete_confirmation_message" = "Czy na pewno chcesz usunąć ten wydatek?";
+"expense_default_name" = "Wydatek";
+
+/* Payment Modal */
+"due_date" = "Data do spłaty";
+"due_date_placeholder" = "np. Czynsz, Netflix";
+"reminders_optional" = "Przypomnienia (opcjonalne)";
+"select_date" = "Wybierz datę";
+"select_reminder_date" = "Wybierz datę przypomnienia";
+
+/* Additional Keys */
+"add_expense_to_pay" = "Dodaj wydatek do spłaty";
+
+/* New Keys for Comprehensive Localization */
+"add_partial_amount" = "Dodaj część kwoty";
+"mark_as_unpaid" = "Oznacz jako niezapłacone";
+"mark_as_paid" = "Oznacz jako zapłacone";
+"delete_expense" = "Usuń wydatek";
+"expense_details" = "Szczegóły wydatku";
+"total_amount" = "Kwota całkowita";
+"paid_in_full" = "Opłacone w całości";
+"set_monthly_budget" = "Ustaw budżet miesięczny";
+"edit_recurring_expense" = "Edytuj wydatek cykliczny";
+"edit_note_content" = "Zmień treść swojej notatki";
+"enter_note_subject" = "Wprowadź temat notatki";
+
+/* Daily Budget Keys */
+"remaining_daily_budget" = "Pozostały budżet dzienny";
+
+/* Recurring Expenses Keys */
+"paid_amount" = "Zapłacona kwota";
+
+/* Budget Details Modal Keys */
+"budget_details" = "Szczegóły budżetu";
+"daily_budget_description" = "Budżet dzienny obliczany z pozostałego budżetu miesięcznego podzielonego przez pozostałe dni w miesiącu";
+
+/* Podsumowanie miesiąca */
+"monthly_summary_title" = "Podsumowanie miesiąca";
+"delete_section_title" = "Usunąć sekcję?";
+"delete_section_message" = "Tej operacji nie można cofnąć.";
+
+/* Puste podsumowanie i modale */
+"no_sections_message" = "Brak sekcji. Dodaj pierwszą.";
+"new_section_title" = "Nowa sekcja";
+"field_title" = "Tytuł";
+"field_title_placeholder" = "np. Jedzenie";
+"field_value" = "Wartość";
+"field_note_optional" = "Notatka (opcjonalnie)";
+"add_section_button" = "Dodaj sekcję";
+"edit_section_title" = "Edytuj sekcję";
+"calculate" = "Kalkulacja";
+"current_value" = "Bieżąca wartość";
+"change_by" = "Zmień o";
+"subtract" = "Odejmij";
+"show_more" = "Pokaż więcej";
+"show_less" = "Pokaż mniej";
+"edit_blocked_title" = "Edycja zablokowana";
+"edit_blocked_message" = "Ta sekcja ma historię. Możesz tylko Kalkulować lub Usunąć.";
+"amount_locked_reason" = "Nie można edytować kwoty, ponieważ sekcja ma historię.";
