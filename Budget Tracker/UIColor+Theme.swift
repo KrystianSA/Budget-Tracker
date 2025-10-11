@@ -1,9 +1,6 @@
 import UIKit
 
 extension UIColor {
-    static func named(_ name: String, fallback: UIColor = .systemBlue) -> UIColor {
-        return UIColor(named: name, in: .main, compatibleWith: nil) ?? fallback
-    }
     private static func fallbackColor(for name: String) -> UIColor {
         switch name {
         case "surface/base": return .systemBackground
@@ -24,9 +21,9 @@ extension UIColor {
         UIColor(named: name, in: .main, compatibleWith: nil) ?? fallbackColor(for: name)
     }
 
-    static let appPrimary: UIColor = named("primary/600", fallback: fallbackColor(for: "primary/600"))
-    static let appSurface: UIColor = named("surface/base", fallback: fallbackColor(for: "surface/base"))
-    static let appTextPrimary: UIColor = named("text/primary", fallback: fallbackColor(for: "text/primary"))
+    static let appPrimary: UIColor = app("primary/600")
+    static let appSurface: UIColor = app("surface/base")
+    static let appTextPrimary: UIColor = app("text/primary")
 }
 
 
