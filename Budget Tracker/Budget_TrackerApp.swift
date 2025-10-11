@@ -122,6 +122,7 @@ struct Budget_TrackerApp: App {
     var body: some Scene {
         WindowGroup {
             MainContainerView()
+                .debugHit("Root")
                 .environmentObject(LanguageManager())
                 .preferredColorScheme(.dark)
                 .onAppear {
