@@ -49,7 +49,7 @@ struct EditCustomTransactionView: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.4)
+            Color(.label).opacity(0.4)
                 .ignoresSafeArea()
                 .onTapGesture {
                     isPresented = false
@@ -65,27 +65,27 @@ struct EditCustomTransactionView: View {
                         isPresented = false
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 24))
                     }
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("expense_name_label".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 16, weight: .medium))
                     
                     TextField("name_placeholder".localized(using: languageManager), text: $transactionName)
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                         .background(
                             Rectangle()
-                                .fill(Color.cardBackground)
+                                .fill(Color(.secondarySystemBackground))
                                 .overlay(
                                     Rectangle()
                                         .frame(height: 1)
-                                        .foregroundColor(.deepMaroon)
+                                        .foregroundColor(Color(.separator))
                                         .offset(y: 20)
                                 )
                         )
@@ -93,21 +93,21 @@ struct EditCustomTransactionView: View {
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("amount_label".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 16, weight: .medium))
                     
                     TextField("0.00", text: $transactionAmount)
                         .keyboardType(.decimalPad)
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                         .background(
                             Rectangle()
-                                .fill(Color.cardBackground)
+                                .fill(Color(.secondarySystemBackground))
                                 .overlay(
                                     Rectangle()
                                         .frame(height: 1)
-                                        .foregroundColor(.deepMaroon)
+                                        .foregroundColor(Color(.separator))
                                         .offset(y: 20)
                                 )
                         )
@@ -128,13 +128,13 @@ struct EditCustomTransactionView: View {
                     updateCustomTransaction()
                 }) {
                     Text("update".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 18, weight: .semibold))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.deepMaroon)
+                                .fill(Color.accentColor)
                         )
                 }
                 .disabled(transactionName.isEmpty || transactionAmount.isEmpty || !isAmountValid)
@@ -142,7 +142,7 @@ struct EditCustomTransactionView: View {
             .padding(24)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.darkBackground)
+                    .fill(Color(.systemBackground))
                     .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
             )
             .padding(.horizontal, 40)

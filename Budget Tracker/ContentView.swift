@@ -21,26 +21,21 @@ struct ExpenseBlockView: View {
     var body: some View {
         HStack {
             Text(expense.name)
-                .foregroundColor(.textPrimary)
+                .foregroundColor(.primary)
                 .font(.system(size: 16, weight: .medium))
             
             Spacer()
             
             Text("\(expense.amount, specifier: "%.2f") zł")
-                .foregroundColor(.darkOrange)
+                .foregroundColor(.accentColor)
                 .font(.system(size: 16, weight: .semibold))
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.cardBackground)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                )
+                .fill(Color(.secondarySystemBackground))
         )
-        .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
         .onHover { hovering in
             isHovered = hovering
         }
@@ -103,20 +98,20 @@ struct DatePickerView: View {
                 }
             }) {
                 Image(systemName: "chevron.left")
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 18, weight: .medium))
             }
             
             Spacer()
             
             Text(selectedDate, style: .date)
-                .foregroundColor(.textPrimary)
+                .foregroundColor(.primary)
                 .font(.system(size: 18, weight: .bold))
                 .padding(.horizontal, 20)
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.deepMaroon.opacity(0.3))
+                        .fill(Color(.tertiarySystemFill))
                 )
             
             Spacer()
@@ -127,7 +122,7 @@ struct DatePickerView: View {
                 }
             }) {
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 18, weight: .medium))
             }
         }
@@ -146,22 +141,22 @@ private struct BudgetSectionView: View {
     var body: some View {
         VStack(spacing: 12) {
             Text("money_to_spend".localized(using: languageManager))
-                .foregroundColor(.textSecondary)
+                .foregroundColor(.secondary)
                 .font(.system(size: 16, weight: .medium))
             
             Text("\(dailyBudget, specifier: "%.0f")")
-                .foregroundColor(.textPrimary)
+                .foregroundColor(.primary)
                 .font(.system(size: 48, weight: .bold))
             
             Text("\("total_expenses".localized(using: languageManager)): \(dailyExpenses, specifier: "%.0f")")
-                .foregroundColor(.textSecondary)
+                .foregroundColor(.secondary)
                 .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.darkOrange)
+                .foregroundColor(.accentColor)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 24)
         .frame(maxWidth: .infinity)
-        .background(Color.cardBackground)
+        .background(Color(.secondarySystemBackground))
         .cornerRadius(16)
         .padding(.horizontal, 20)
     }
@@ -176,28 +171,28 @@ private struct MonthlyBudgetSectionView: View {
     var body: some View {
         VStack(spacing: 12) {
             Text("remaining_monthly_budget".localized(using: languageManager))
-                .foregroundColor(.textSecondary)
+                .foregroundColor(.secondary)
                 .font(.system(size: 16, weight: .medium))
             
             Text("\(remainingMonthlyBudget, specifier: "%.0f") zł")
-                .foregroundColor(.textPrimary)
+                .foregroundColor(.primary)
                 .font(.system(size: 32, weight: .bold))
             
             // Daily Rolling Budget
             VStack(spacing: 4) {
                 Text("remaining_daily_budget".localized(using: languageManager))
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.secondary)
                     .font(.system(size: 14, weight: .medium))
                 
                 Text("\(dailyRollingBudget, specifier: "%.0f") zł")
-                    .foregroundColor(.darkOrange)
+                    .foregroundColor(.accentColor)
                     .font(.system(size: 18, weight: .semibold))
             }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 24)
         .frame(maxWidth: .infinity)
-        .background(Color.cardBackground)
+        .background(Color(.secondarySystemBackground))
         .cornerRadius(16)
         .padding(.horizontal, 20)
     }
@@ -241,27 +236,27 @@ private struct EditExpenseSheet: View {
     var body: some View {
         VStack(spacing: 24) {
             Text("edit_expense_title".localized(using: languageManager))
-                .foregroundColor(.textPrimary)
+                .foregroundColor(.primary)
                 .font(.system(size: 24, weight: .bold))
                 .padding(.top, 20)
             
             VStack(alignment: .leading, spacing: 8) {
                 Text("amount_label".localized(using: languageManager))
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 16, weight: .medium))
                 
                 TextField("amount_placeholder".localized(using: languageManager), text: $expenseAmount)
                     .keyboardType(.decimalPad)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(
                         Rectangle()
-                            .fill(Color.cardBackground)
+                            .fill(Color(.secondarySystemBackground))
                             .overlay(
                                 Rectangle()
                                     .frame(height: 1)
-                                    .foregroundColor(.deepMaroon)
+                                    .foregroundColor(Color(.separator))
                                     .offset(y: 20)
                             )
                     )
@@ -280,20 +275,20 @@ private struct EditExpenseSheet: View {
             
             VStack(alignment: .leading, spacing: 8) {
                 Text("expense_name_label".localized(using: languageManager))
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 16, weight: .medium))
                 
                 TextField("name_placeholder".localized(using: languageManager), text: $expenseName)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(
                         Rectangle()
-                            .fill(Color.cardBackground)
+                            .fill(Color(.secondarySystemBackground))
                             .overlay(
                                 Rectangle()
                                     .frame(height: 1)
-                                    .foregroundColor(.deepMaroon)
+                                    .foregroundColor(Color(.separator))
                                     .offset(y: 20)
                             )
                     )
@@ -314,13 +309,13 @@ private struct EditExpenseSheet: View {
                 }
             }) {
                 Text("save_changes".localized(using: languageManager))
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 18, weight: .semibold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.deepMaroon)
+                            .fill(Color.accentColor)
                     )
             }
             .disabled(expenseAmount.isEmpty || expenseName.isEmpty || !isAmountValid)
@@ -328,7 +323,7 @@ private struct EditExpenseSheet: View {
             Spacer()
         }
         .padding(.horizontal, 20)
-        .background(Color.darkBackground)
+        .background(Color(.systemBackground))
         .presentationDetents([.medium])
     }
 }
@@ -365,27 +360,27 @@ private struct AddExpenseSheet: View {
     var body: some View {
         VStack(spacing: 24) {
             Text("add_expense_title".localized(using: languageManager))
-                .foregroundColor(.textPrimary)
+                .foregroundColor(.primary)
                 .font(.system(size: 24, weight: .bold))
                 .padding(.top, 20)
             
             VStack(alignment: .leading, spacing: 8) {
                 Text("amount_label".localized(using: languageManager))
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 16, weight: .medium))
                 
                 TextField("amount_placeholder".localized(using: languageManager), text: $expenseAmount)
                     .keyboardType(.decimalPad)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(
                         Rectangle()
-                            .fill(Color.cardBackground)
+                            .fill(Color(.secondarySystemBackground))
                             .overlay(
                                 Rectangle()
                                     .frame(height: 1)
-                                    .foregroundColor(.deepMaroon)
+                                    .foregroundColor(Color(.separator))
                                     .offset(y: 20)
                             )
                     )
@@ -404,20 +399,20 @@ private struct AddExpenseSheet: View {
             
             VStack(alignment: .leading, spacing: 8) {
                 Text("expense_name_optional".localized(using: languageManager))
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 16, weight: .medium))
                 
                 TextField("name_placeholder".localized(using: languageManager), text: $expenseName)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(
                         Rectangle()
-                            .fill(Color.cardBackground)
+                            .fill(Color(.secondarySystemBackground))
                             .overlay(
                                 Rectangle()
                                     .frame(height: 1)
-                                    .foregroundColor(.deepMaroon)
+                                    .foregroundColor(Color(.separator))
                                     .offset(y: 20)
                             )
                     )
@@ -443,13 +438,13 @@ private struct AddExpenseSheet: View {
                 }
             }) {
                 Text("save_button".localized(using: languageManager))
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 18, weight: .semibold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.deepMaroon)
+                            .fill(Color.accentColor)
                     )
             }
             .disabled(expenseAmount.isEmpty || !isAmountValid)
@@ -457,7 +452,7 @@ private struct AddExpenseSheet: View {
             Spacer()
         }
         .padding(.horizontal, 20)
-        .background(Color.darkBackground)
+        .background(Color(.systemBackground))
         .presentationDetents([.medium])
     }
 }
@@ -472,19 +467,12 @@ struct ContentView: View {
     @Query private var rollingBudgets: [RollingBudget]
     @State private var selectedDate = Date()
     @State private var showingAddExpense = false
-    @State private var isShowingMonthlyBudgetPanel = false
-    @State private var isShowingExpensesToPayPanel = false
     @State private var showingRecurringExpenses = false
     @State private var showingMonthlyBudgetAlert = false
     @State private var showingBudgetDetails = false
+    @State private var showingSettings = false
     @AppStorage("transactionsAfterOverrunCount") private var transactionsAfterOverrunCount: Int = 0
-    @AppStorage("colorScheme") private var colorSchemePreference: String = "dark"
     
-    let onNotesButtonTapped: (() -> Void)?
-    
-    init(onNotesButtonTapped: (() -> Void)? = nil) {
-        self.onNotesButtonTapped = onNotesButtonTapped
-    }
     
     private var rollingBudget: RollingBudget? {
         return rollingBudgets.first
@@ -606,7 +594,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Color.darkBackground
+            Color(.systemBackground)
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
@@ -621,7 +609,10 @@ struct ContentView: View {
                 )
                 .padding(.top, 20)
                 .onTapGesture {
-                    showingBudgetDetails = true
+                    guard !showingBudgetDetails else { return }
+                    DispatchQueue.main.async {
+                        showingBudgetDetails = true
+                    }
                 }
                 .onChange(of: dailyExpenses) { _, newValue in
                     // Check if daily budget is exceeded and send notification
@@ -636,7 +627,7 @@ struct ContentView: View {
                     LazyVStack(spacing: 12) {
                         if filteredExpenses.isEmpty {
                             Text("no_expenses_today".localized(using: languageManager))
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 16, weight: .medium))
                                 .padding(.vertical, 40)
                         } else {
@@ -653,23 +644,15 @@ struct ContentView: View {
                 
                 // Bottom Navigation
                 HStack(spacing: 0) {
-                    // Calendar button
+                    // Settings button
                     Button(action: {
-                        isShowingExpensesToPayPanel.toggle()
+                        guard !showingSettings else { return }
+                        DispatchQueue.main.async {
+                            showingSettings = true
+                        }
                     }) {
-                        Image(systemName: "calendar")
-                            .foregroundColor(.textSecondary)
-                            .font(.system(size: 24))
-                    }
-                    
-                    Spacer()
-                    
-                    // Lightbulb button
-                    Button(action: {
-                        onNotesButtonTapped?()
-                    }) {
-                        Image(systemName: "lightbulb")
-                            .foregroundColor(.textSecondary)
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.secondary)
                             .font(.system(size: 24))
                     }
                     
@@ -677,15 +660,18 @@ struct ContentView: View {
                     
                     // Center + button
                     Button(action: {
-                        showingAddExpense = true
+                        guard !showingAddExpense else { return }
+                        DispatchQueue.main.async {
+                            showingAddExpense = true
+                        }
                     }) {
                         Image(systemName: "plus")
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.white)
                             .font(.system(size: 24, weight: .bold))
                             .frame(width: 60, height: 60)
                             .background(
                                 Circle()
-                                    .fill(Color.darkOrange)
+                                    .fill(Color.accentColor)
                             )
                             .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
@@ -694,59 +680,21 @@ struct ContentView: View {
                     
                     // Square placeholder button
                     Button(action: {
-                        showingRecurringExpenses = true
+                        guard !showingRecurringExpenses else { return }
+                        DispatchQueue.main.async {
+                            showingRecurringExpenses = true
+                        }
                     }) {
                         Image(systemName: "square")
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 24))
-                    }
-                    
-                    Spacer()
-                    
-                    // List button
-                    Button(action: {
-                        isShowingMonthlyBudgetPanel.toggle()
-                    }) {
-                        Image(systemName: "list.bullet")
-                            .foregroundColor(.textSecondary)
-                            .font(.system(size: 24))
-                            .overlay(
-                                Group {
-                                    if customTransactionCount > 0 {
-                                        ZStack {
-                                            Circle()
-                                                .fill(Color.red)
-                                                .frame(width: 20, height: 20)
-                                            
-                                            Text("\(customTransactionCount)")
-                                                .foregroundColor(.white)
-                                                .font(.system(size: 12, weight: .bold))
-                                        }
-                                        .offset(x: 12, y: -12)
-                                    }
-                                }
-                            )
                     }
                 }
                 .padding(.horizontal, 40)
                 .padding(.vertical, 20)
-                .background(Color.cardBackground)
+                .background(Color(.secondarySystemBackground))
             }
             
-            // Semi-transparent overlay when side panels are open
-            if isShowingMonthlyBudgetPanel || isShowingExpensesToPayPanel {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        // Dismiss the open panel(s)
-                        if isShowingMonthlyBudgetPanel {
-                            isShowingMonthlyBudgetPanel = false
-                        }
-                        if isShowingExpensesToPayPanel {
-                            isShowingExpensesToPayPanel = false
-                        }
-                    }
-            }
             
             // Monthly Budget Panel
 //            if isShowingMonthlyBudgetPanel {
@@ -823,7 +771,7 @@ struct ContentView: View {
                                 .font(.system(size: 20, weight: .bold))
                                 .padding(.horizontal, 40)
                                 .padding(.vertical, 15)
-                                .background(Color.white)
+                                .background(Color(.systemBackground))
                                 .cornerRadius(30)
                         }
                     }
@@ -832,7 +780,6 @@ struct ContentView: View {
                 .animation(.easeInOut(duration: 0.4), value: showingMonthlyBudgetAlert)
             }
         }
-        .id(colorSchemePreference)
         .sheet(isPresented: $showingAddExpense) {
             AddExpenseSheet(
                 isPresented: $showingAddExpense,
@@ -850,6 +797,10 @@ struct ContentView: View {
                 isPresented: $showingBudgetDetails,
                 remainingMonthlyBudget: remainingMonthlyBudget
             )
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView(isPresented: $showingSettings)
+                .environmentObject(languageManager)
         }
         .onAppear {
             ensureRollingBudgetExists()

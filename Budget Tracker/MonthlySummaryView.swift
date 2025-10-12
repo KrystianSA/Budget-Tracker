@@ -12,12 +12,13 @@ struct MonthlySummaryView: View {
     
     var body: some View {
         ZStack {
-            AppTheme.color(.surfaceBase).ignoresSafeArea()
+            Color(.systemBackground)
+                .ignoresSafeArea()
             
             VStack(spacing: 16) {
                 HStack {
                     Text("monthly_summary_title".localized(using: languageManager))
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .font(.system(size: 22, weight: .bold))
                     Spacer()
                 }
@@ -27,23 +28,29 @@ struct MonthlySummaryView: View {
                 if sections.isEmpty {
                     VStack(spacing: 12) {
                         Image(systemName: "rectangle.grid.2x2")
-                            .foregroundColor(AppTheme.color(.textSecondary))
+                            .foregroundColor(.secondary)
                             .font(.system(size: 40))
                         Text("no_sections_message".localized(using: languageManager))
-                            .foregroundColor(AppTheme.color(.textSecondary))
+                            .foregroundColor(.secondary)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     ScrollView(.vertical, showsIndicators: false) {
-                        LazyVStack(spacing: 14) {
+                        LazyVStack(spacing: 10) {
                             ForEach(sections) { section in
                                 SummaryCard(section: section, onTap: {
-                                    sectionToEdit = section
+                                    guard sectionToEdit == nil else { return }
+                                    DispatchQueue.main.async {
+                                        sectionToEdit = section
+                                    }
                                 }, onDelete: {
                                     sectionToDelete = section
                                     showingDeleteAlert = true
                                 }, onCalculate: {
-                                    sectionToCalculate = section
+                                    guard sectionToCalculate == nil else { return }
+                                    DispatchQueue.main.async {
+                                        sectionToCalculate = section
+                                    }
                                 })
                                     .matchedGeometryEffect(id: section.id, in: animation)
                             }
@@ -59,13 +66,18 @@ struct MonthlySummaryView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Button(action: { showingAddSection = true }) {
+                    Button(action: { 
+                        guard !showingAddSection else { return }
+                        DispatchQueue.main.async {
+                            showingAddSection = true
+                        }
+                    }) {
                         Image(systemName: "plus")
                             .foregroundColor(.white)
                             .font(.system(size: 24, weight: .bold))
                             .frame(width: 56, height: 56)
-                            .background(Circle().fill(AppTheme.color(.primary600)))
-                            .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 4)
+                            .background(Circle().fill(Color.accentColor))
+                            .shadow(color: Color(.label).opacity(0.08), radius: 12, x: 0, y: 4)
                     }
                     .padding(.trailing, 20)
                     .padding(.bottom, 20)
@@ -131,22 +143,22 @@ private struct SummaryCard: View {
     @State private var showAllHistory: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(section.title)
-                    .foregroundColor(AppTheme.color(.textPrimary))
+                    .foregroundColor(.primary)
                     .font(.system(size: 16, weight: .semibold))
                 Spacer(minLength: 0)
             }
             
             Text(String(format: "%.2f zł", section.value))
-                .foregroundColor(AppTheme.color(.textPrimary))
+                .foregroundColor(.primary)
                 .font(.system(size: 24, weight: .bold))
             
             // Always show the base note from section creation
             if let baseNote = section.note, !baseNote.isEmpty {
                 Text(baseNote)
-                    .foregroundColor(AppTheme.color(.textSecondary))
+                    .foregroundColor(.secondary)
                     .font(.system(size: 13, weight: .regular))
                     .padding(.top, 6)
             }
@@ -159,11 +171,11 @@ private struct SummaryCard: View {
                     ForEach(visible) { entry in
                         HStack(spacing: 8) {
                             Text(String(format: "%@%.2f zł", entry.amount >= 0 ? "+" : "", entry.amount))
-                                .foregroundColor(entry.amount >= 0 ? AppTheme.color(.success600) : AppTheme.color(.error600))
+                                .foregroundColor(entry.amount >= 0 ? .green : .red)
                                 .font(.system(size: 13, weight: .semibold))
                             if let n = entry.note, !n.isEmpty {
                                 Text("- \(n)")
-                                    .foregroundColor(AppTheme.color(.textSecondary))
+                                    .foregroundColor(.secondary)
                                     .font(.system(size: 13, weight: .regular))
                             }
                         }
@@ -172,19 +184,20 @@ private struct SummaryCard: View {
                         Button(action: { withAnimation(.easeInOut(duration: 0.2)) { showAllHistory.toggle() } }) {
                             Image(systemName: showAllHistory ? "chevron.up" : "chevron.down")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(AppTheme.color(.textSecondary))
+                                .foregroundColor(.secondary)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .padding(.top, 4)
                     }
                 }
-                .padding(.top, 10) // push history a bit lower
+                .padding(.top, 6) // push history a bit lower
             }
         }
-        .padding(16)
+        .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .appCard()
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(10)
         .contentShape(Rectangle())
         .contextMenu {
             Button(action: onTap) {
@@ -215,30 +228,30 @@ private struct AddSectionModal: View {
             VStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("field_title".localized(using: languageManager))
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                     TextField("field_title_placeholder".localized(using: languageManager), text: $title)
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.color(.surfaceCard)))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.secondarySystemBackground)))
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("field_value".localized(using: languageManager))
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                     TextField("0.00", text: $value)
                         .keyboardType(.decimalPad)
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.color(.surfaceCard)))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.secondarySystemBackground)))
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("field_note_optional".localized(using: languageManager))
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                     TextField("...", text: $note)
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.color(.surfaceCard)))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.secondarySystemBackground)))
                 }
                 
                 // Color selection removed; default remains green
@@ -250,16 +263,16 @@ private struct AddSectionModal: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                 }
-                .appButton(.filled)
+                .buttonStyle(.borderedProminent)
                 .disabled(title.isEmpty || Double(value.replacingOccurrences(of: ",", with: ".")) == nil)
             }
             .padding(20)
-            .background(AppTheme.color(.surfaceBase).ignoresSafeArea())
+            .background(Color(.systemBackground).ignoresSafeArea())
             .navigationTitle("new_section_title".localized(using: languageManager))
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("cancel".localized(using: languageManager)) { isPresented = false }
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.secondary)
                 }
             }
         }
@@ -284,6 +297,11 @@ private struct EditSectionModal: View {
     @State private var title: String
     @State private var value: String
     @State private var note: String
+    @FocusState private var focusedField: Field?
+    
+    enum Field {
+        case title, note
+    }
     
     init(
         isPresented: Binding<Bool>,
@@ -304,50 +322,61 @@ private struct EditSectionModal: View {
         NavigationView {
             VStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("field_title".localized(using: languageManager)).foregroundColor(AppTheme.color(.textPrimary))
+                    Text("field_title".localized(using: languageManager)).foregroundColor(.primary)
                     TextField("field_title_placeholder".localized(using: languageManager), text: $title)
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.color(.surfaceCard)))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.secondarySystemBackground)))
+                        .textFieldStyle(.plain)
+                        .autocorrectionDisabled()
+                        .focused($focusedField, equals: .title)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                focusedField = .title
+                            }
+                        }
                 }
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("field_value".localized(using: languageManager)).foregroundColor(AppTheme.color(.textPrimary))
+                    Text("field_value".localized(using: languageManager)).foregroundColor(.primary)
                     if isAmountLocked {
                         HStack(spacing: 8) {
                             Image(systemName: "lock.fill")
-                                .foregroundColor(AppTheme.color(.textSecondary))
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 12))
                                 Text(value)
-                                    .foregroundColor(AppTheme.color(.textPrimary))
+                                    .foregroundColor(.primary)
                                 .font(.system(size: 14))
                             Spacer()
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 8)
-                        .background(RoundedRectangle(cornerRadius: 8).fill(AppTheme.color(.surfaceCard).opacity(0.5)))
+                        .background(RoundedRectangle(cornerRadius: 8).fill(Color(.secondarySystemBackground).opacity(0.5)))
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(AppTheme.color(.borderMuted), lineWidth: 1)
+                                .stroke(Color(.separator), lineWidth: 1)
                         )
                         .contentShape(Rectangle())
                         Text("amount_locked_reason".localized(using: languageManager))
-                            .foregroundColor(AppTheme.color(.textSecondary))
+                            .foregroundColor(.secondary)
                             .font(.system(size: 12, weight: .regular))
                     } else {
                         TextField("0.00", text: $value)
                             .keyboardType(.decimalPad)
-                            .foregroundColor(AppTheme.color(.textPrimary))
+                            .foregroundColor(.primary)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
-                            .background(RoundedRectangle(cornerRadius: 8).fill(AppTheme.color(.surfaceCard)))
+                            .background(RoundedRectangle(cornerRadius: 8).fill(Color(.secondarySystemBackground)))
                     }
                 }
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("field_note_optional".localized(using: languageManager)).foregroundColor(AppTheme.color(.textPrimary))
+                    Text("field_note_optional".localized(using: languageManager)).foregroundColor(.primary)
                     TextField("...", text: $note)
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.color(.surfaceCard)))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.secondarySystemBackground)))
+                        .textFieldStyle(.plain)
+                        .autocorrectionDisabled()
+                        .focused($focusedField, equals: .note)
                 }
                 Spacer()
                 Button(action: save) {
@@ -355,25 +384,40 @@ private struct EditSectionModal: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                 }
-                .appButton(.filled)
-                .disabled(title.isEmpty || Double(value.replacingOccurrences(of: ",", with: ".")) == nil || isAmountLocked)
+                .buttonStyle(.borderedProminent)
+                .disabled(title.isEmpty || (!isAmountLocked && Double(value.replacingOccurrences(of: ",", with: ".")) == nil))
             }
             .padding(20)
-            .background(AppTheme.color(.surfaceBase).ignoresSafeArea())
+            .background(Color(.systemBackground).ignoresSafeArea())
             .navigationTitle("edit_section_title".localized(using: languageManager))
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("cancel".localized(using: languageManager)) { isPresented = false }
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.secondary)
+                }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        focusedField = nil
+                    }
                 }
             }
         }
     }
     
     private func save() {
-        let normalized = value.replacingOccurrences(of: ",", with: ".")
-        guard let number = Double(normalized) else { return }
-        let updated = BudgetSection(id: section.id, title: title, color: section.color, value: number, note: note.isEmpty ? nil : note, history: section.history)
+        let updated: BudgetSection
+        
+        if isAmountLocked {
+            // When amount is locked, only update title and note, keep original value
+            updated = BudgetSection(id: section.id, title: title, color: section.color, value: section.value, note: note.isEmpty ? nil : note, history: section.history)
+        } else {
+            // When amount is not locked, validate and update all fields
+            let normalized = value.replacingOccurrences(of: ",", with: ".")
+            guard let number = Double(normalized) else { return }
+            updated = BudgetSection(id: section.id, title: title, color: section.color, value: number, note: note.isEmpty ? nil : note, history: section.history)
+        }
+        
         onSave(updated)
         isPresented = false
     }
@@ -396,30 +440,30 @@ private struct CalculateSectionModal: View {
             VStack(spacing: 16) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("current_value".localized(using: languageManager))
-                        .foregroundColor(AppTheme.color(.textSecondary))
+                        .foregroundColor(.secondary)
                     Text(String(format: "%.2f zł", section.value))
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .font(.system(size: 22, weight: .bold))
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("change_by".localized(using: languageManager))
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                     TextField("0.00", text: $delta)
                         .keyboardType(.decimalPad)
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.color(.surfaceCard)))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.secondarySystemBackground)))
                 }
                 
                 // Optional short note for this calculation
                 VStack(alignment: .leading, spacing: 8) {
                     Text("field_note_optional".localized(using: languageManager))
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                     TextField("...", text: $calcNote)
-                        .foregroundColor(AppTheme.color(.textPrimary))
+                        .foregroundColor(.primary)
                         .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(AppTheme.color(.surfaceCard)))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(.secondarySystemBackground)))
                 }
 
                 HStack(spacing: 12) {
@@ -428,16 +472,16 @@ private struct CalculateSectionModal: View {
                             .frame(maxWidth: .infinity)
                     }
                     .padding(.vertical, 10)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(mode == .add ? AppTheme.color(.primary600) : AppTheme.color(.surfaceCard)))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(mode == .add ? Color.accentColor : Color(.secondarySystemBackground)))
                     
                     Button(action: { mode = .subtract }) {
                         Label("subtract".localized(using: languageManager), systemImage: "minus.circle")
                             .frame(maxWidth: .infinity)
                     }
                     .padding(.vertical, 10)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(mode == .subtract ? AppTheme.color(.primary600) : AppTheme.color(.surfaceCard)))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(mode == .subtract ? Color.accentColor : Color(.secondarySystemBackground)))
                 }
-                .foregroundColor(AppTheme.color(.textPrimary))
+                .foregroundColor(.primary)
                 
                 Spacer()
                 
@@ -446,16 +490,16 @@ private struct CalculateSectionModal: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                 }
-                .appButton(.filled)
+                .buttonStyle(.borderedProminent)
                 .disabled(Double(delta.replacingOccurrences(of: ",", with: ".")) == nil)
             }
             .padding(20)
-            .background(AppTheme.color(.surfaceBase).ignoresSafeArea())
+            .background(Color(.systemBackground).ignoresSafeArea())
             .navigationTitle("calculate".localized(using: languageManager))
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("cancel".localized(using: languageManager)) { isPresented = false }
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.secondary)
                 }
             }
         }

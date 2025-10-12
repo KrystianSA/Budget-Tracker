@@ -44,20 +44,20 @@ struct ExportDataModal: View {
             VStack(spacing: 24) {
                 // Header
                 Text("export_data".localized(using: languageManager))
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .font(.system(size: 24, weight: .bold))
                     .padding(.top, 20)
                 
                 // Date Range Selection
                 VStack(alignment: .leading, spacing: 16) {
                     Text("select_date_range".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 18, weight: .semibold))
                     
                     VStack(spacing: 12) {
                         HStack {
                             Text("\(String(localized: "start_date")):")
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 14, weight: .medium))
                             
                             Spacer()
@@ -69,7 +69,7 @@ struct ExportDataModal: View {
                         
                         HStack {
                             Text("\(String(localized: "end_date")):")
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 14, weight: .medium))
                             
                             Spacer()
@@ -83,14 +83,14 @@ struct ExportDataModal: View {
                     .padding(.vertical, 12)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.cardBackground)
+                            .fill(Color(.secondarySystemBackground))
                     )
                 }
                 
                 // Export Options
                 VStack(alignment: .leading, spacing: 16) {
                     Text("export_format".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 18, weight: .semibold))
                     
                     VStack(spacing: 12) {
@@ -98,21 +98,21 @@ struct ExportDataModal: View {
                             title: "pdf".localized(using: languageManager),
                             subtitle: "pdf_document_with_charts".localized(using: languageManager),
                             icon: "doc.text",
-                            action: { exportToPDF() }
+                            action: exportToPDF
                         )
                         
                         ExportOptionButton(
                             title: "excel".localized(using: languageManager),
                             subtitle: "excel_spreadsheet".localized(using: languageManager),
                             icon: "tablecells",
-                            action: { exportToExcel() }
+                            action: exportToExcel
                         )
                         
                         ExportOptionButton(
                             title: "csv".localized(using: languageManager),
                             subtitle: "csv_text_file".localized(using: languageManager),
                             icon: "doc.plaintext",
-                            action: { exportToCSV() }
+                            action: exportToCSV
                         )
                     }
                 }
@@ -123,7 +123,7 @@ struct ExportDataModal: View {
                         ProgressView()
                             .scaleEffect(0.8)
                         Text("exporting".localized(using: languageManager))
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 14, weight: .medium))
                     }
                     .padding(.vertical, 8)
@@ -140,28 +140,39 @@ struct ExportDataModal: View {
                 Spacer()
                 
                 // Close Button
-                Button(action: {
+                Button("close".localized(using: languageManager)) {
                     isPresented = false
-                }) {
-                    Text("close".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
-                        .font(.system(size: 18, weight: .bold))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 15)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.deepMaroon)
-                        )
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.accentColor)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 3)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.clear, lineWidth: 0)
+                )
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.clear)
+                )
+                .padding(.vertical, 12)
+                .overlay(
+                    EmptyView()
+                )
+                .overlay(
+                    Text("close".localized(using: languageManager))
+                        .foregroundColor(.primary)
+                        .font(.system(size: 18, weight: .bold))
+                )
             }
             .padding(.horizontal, 20)
-            .background(Color.darkBackground)
+            .background(Color(.systemBackground))
         }
-        .alert("export_completed".localized(using: languageManager), isPresented: $showExportAlert) {
+        .alert("export_completed".localized(using: languageManager), isPresented: $showExportAlert, actions: {
             Button("ok".localized(using: languageManager)) { }
-        } message: {
+        }, message: {
             Text(exportMessage)
-        }
+        })
         .sheet(isPresented: $showActivitySheet) {
             ActivityViewController(activityItems: activityItems)
         }
@@ -397,37 +408,37 @@ struct ExportOptionButton: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
+        Button(role: .none, action: action) {
             HStack {
                 Image(systemName: icon)
-                    .foregroundColor(.deepMaroon)
+                    .foregroundColor(.accentColor)
                     .font(.system(size: 20, weight: .medium))
                     .frame(width: 30)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 16, weight: .semibold))
                     
                     Text(subtitle)
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.secondary)
                         .font(.system(size: 12, weight: .medium))
                 }
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.secondary)
                     .font(.system(size: 12, weight: .medium))
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.cardBackground)
+                    .fill(Color(.secondarySystemBackground))
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.deepMaroon.opacity(0.2), lineWidth: 1)
+                            .stroke(Color(.separator), lineWidth: 1)
                     )
             )
         }

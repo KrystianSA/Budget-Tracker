@@ -4,11 +4,13 @@ struct MainContainerView: View {
     @State private var currentIndex: Int = 0
     // TODO: placeholder for removed "Notes" module
     @EnvironmentObject var languageManager: LanguageManager
-    @AppStorage("colorScheme") private var colorSchemePreference: String = "dark"
     @State private var sections: [BudgetSection] = []
     
     var body: some View {
         ZStack {
+            Color(.systemBackground)
+                .ignoresSafeArea()
+            
             TabView(selection: $currentIndex) {
                 ContentView()
                     .tag(0)
@@ -46,7 +48,7 @@ private struct EdgeHint: View {
     
     var body: some View {
         LinearGradient(
-            colors: [Color.white.opacity(0.08), .clear],
+            colors: [Color(.systemBackground).opacity(0.08), .clear],
             startPoint: direction == .left ? .leading : .trailing,
             endPoint: direction == .left ? .trailing : .leading
         )

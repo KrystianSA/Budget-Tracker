@@ -18,16 +18,19 @@ struct  SettingsView: View {
                 VStack(spacing: 0) {
                     // Set Budget Option
                     Button(action: {
-                        isShowingBudgetEditModal = true
+                        guard !isShowingBudgetEditModal else { return }
+                        DispatchQueue.main.async {
+                            isShowingBudgetEditModal = true
+                        }
                     }) {
                         HStack {
                             Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(AppTheme.color(.primary600))
+                                .foregroundColor(.accentColor)
                             Text(currentBudgetAmount > 0 ? String(format: "%.2f zł", currentBudgetAmount) : "set_budget".localized(using: languageManager))
-                                .foregroundColor(.textPrimary)
+                                .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 12))
                         }
                         .padding()
@@ -35,76 +38,84 @@ struct  SettingsView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     Divider()
-                        .background(AppTheme.color(.borderMuted))
+                        .background(Color(.separator))
                     
                     // Export Data Option
                     Button(action: {
-                        isShowingExportModal = true
+                        guard !isShowingExportModal else { return }
+                        DispatchQueue.main.async {
+                            isShowingExportModal = true
+                        }
                     }) {
                         HStack {
-                            Image(systemName: "square.and.arrow.down.fill")
-                                .foregroundColor(AppTheme.color(.primary600))
+                            Image(systemName: "square.and.arrow.down")
+                                .foregroundColor(.accentColor)
                             Text("export_data".localized(using: languageManager))
-                                .foregroundColor(.textPrimary)
+                                .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 12))
                         }
                         .padding()
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
-                .appCard()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(10)
                 
                 // Theme Selection Section
                 VStack(spacing: 20) {
                     HStack {
                         Image(systemName: "iphone")
-                            .foregroundColor(AppTheme.color(.textPrimary))
+                            .foregroundColor(.primary)
                             .font(.system(size: 16))
                         Text("Theme")
                             .font(.headline)
-                            .foregroundColor(AppTheme.color(.textPrimary))
+                            .foregroundColor(.primary)
                         Spacer()
                     }
 
                     HStack(spacing: 0) {
                         // Dark Theme Button
                         Button(action: {
-                            colorSchemePreference = "dark"
+                            withAnimation(.none) {
+                                colorSchemePreference = "dark"
+                            }
                         }) {
                             HStack {
                                 Image(systemName: "moon.fill")
-                                    .foregroundColor(AppTheme.color(.textPrimary))
+                                    .foregroundColor(colorSchemePreference == "dark" ? .white : .primary)
                                     .font(.system(size: 16))
                                 Text("Dark")
-                                    .foregroundColor(AppTheme.color(.textPrimary))
+                                    .foregroundColor(colorSchemePreference == "dark" ? .white : .primary)
                                     .font(.system(size: 16, weight: .medium))
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
-                            .background(Color.purple)
+                            .background(colorSchemePreference == "dark" ? Color.purple : Color(.secondarySystemBackground))
                         }
                         
                         // Light Theme Button
                         Button(action: {
-                            colorSchemePreference = "light"
+                            withAnimation(.none) {
+                                colorSchemePreference = "light"
+                            }
                         }) {
                             HStack {
                                 Image(systemName: "sun.max.fill")
-                                    .foregroundColor(.textPrimary)
+                                    .foregroundColor(colorSchemePreference == "light" ? .white : .primary)
                                     .font(.system(size: 16))
                                 Text("Light")
-                                    .foregroundColor(.textPrimary)
+                                    .foregroundColor(colorSchemePreference == "light" ? .white : .primary)
                                     .font(.system(size: 16, weight: .medium))
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
-                            .background(AppTheme.color(.surfaceCard))
+                            .background(colorSchemePreference == "light" ? Color.purple : Color(.secondarySystemBackground))
                         }
                     }
-                    .background(AppTheme.color(.surfaceCard))
+                    .background(Color(.secondarySystemBackground))
                     .cornerRadius(8)
                 }
                 .padding(.vertical, 8)
@@ -131,8 +142,8 @@ struct  SettingsView: View {
                 }
                 .padding(.horizontal)
             }
-            .background(AppTheme.color(.surfaceBase))
-            .background(AppTheme.color(.surfaceBase).ignoresSafeArea())
+            .background(Color(.systemBackground))
+            .background(Color(.systemBackground).ignoresSafeArea())
             .navigationTitle("settings".localized(using: languageManager))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -142,7 +153,7 @@ struct  SettingsView: View {
                         isPresented = false
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(AppTheme.color(.textSecondary))
+                            .foregroundColor(.secondary)
                             .font(.system(size: 20))
                     }
                 }
@@ -151,7 +162,8 @@ struct  SettingsView: View {
                 loadCurrentMonthlyBudget()
             }
         }
-        .background(AppTheme.color(.surfaceBase))
+        .background(Color(.systemBackground))
+        .preferredColorScheme(colorSchemePreference == "dark" ? .dark : .light)
         .sheet(isPresented: $isShowingBudgetEditModal) {
             BudgetEditModal(
                 isPresented: $isShowingBudgetEditModal,

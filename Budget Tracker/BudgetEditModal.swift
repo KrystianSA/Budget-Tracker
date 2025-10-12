@@ -50,22 +50,22 @@ struct BudgetEditModal: View {
             VStack(spacing: 24) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("set_monthly_budget".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 18, weight: .semibold))
                         .padding(.top, 20)
                     
                     TextField("0.00", text: $budgetAmount)
                         .keyboardType(.decimalPad)
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                         .background(
                             Rectangle()
-                                .fill(Color.cardBackground)
+                                .fill(Color(.secondarySystemBackground))
                                 .overlay(
                                     Rectangle()
                                         .frame(height: 1)
-                                        .foregroundColor(.deepMaroon)
+                                        .foregroundColor(Color(.separator))
                                         .offset(y: 20)
                                 )
                         )
@@ -94,21 +94,21 @@ struct BudgetEditModal: View {
                 Spacer()
             }
             .padding(.horizontal, 20)
-            .background(Color.darkBackground)
+            .background(Color(.systemBackground))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("cancel".localized(using: languageManager)) {
                         isPresented = false
                     }
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.secondary)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("save_button".localized(using: languageManager)) {
                         saveBudget()
                     }
-                    .foregroundColor(.deepMaroon)
+                    .foregroundColor(.accentColor)
                     .disabled(!isAmountValid || !isBudgetValid || budgetAmount.isEmpty)
                 }
             }

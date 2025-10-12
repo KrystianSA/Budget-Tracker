@@ -58,7 +58,7 @@ struct PaymentModal: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.4)
+            Color(.label).opacity(0.1)
                 .ignoresSafeArea()
                 .onTapGesture {
                     isPresented = false
@@ -68,7 +68,7 @@ struct PaymentModal: View {
                 // Header
                 HStack {
                     Text("add_payment".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 20, weight: .bold))
                     
                     Spacer()
@@ -77,53 +77,30 @@ struct PaymentModal: View {
                         isPresented = false
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 24))
                     }
                 }
                 
-                // Expense info
-                VStack(spacing: 12) {
-                    Text(expense.expenseName)
-                        .foregroundColor(.textPrimary)
-                        .font(.system(size: 18, weight: .semibold))
-                        .multilineTextAlignment(.center)
-                    
-                    Text("Kwota całkowita: \(String(format: "%.2f zł", expense.setAmount))")
-                        .foregroundColor(.textSecondary)
-                        .font(.system(size: 14, weight: .medium))
-                    
-                    if let amountSpent = expense.amountSpent, amountSpent > 0 {
-                        Text("Już zapłacono: \(String(format: "%.2f zł", amountSpent))")
-                            .foregroundColor(.green)
-                            .font(.system(size: 14, weight: .medium))
-                        
-                        let remaining = expense.setAmount - amountSpent
-                        Text("Pozostało: \(String(format: "%.2f zł", remaining))")
-                            .foregroundColor(.darkOrange)
-                            .font(.system(size: 14, weight: .medium))
-                    }
-                }
-                .padding(.vertical, 8)
                 
                 // Payment amount field
                 VStack(alignment: .leading, spacing: 8) {
                     Text("amount".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 16, weight: .medium))
                     
                     TextField("0.00", text: $paymentAmount)
                         .keyboardType(.decimalPad)
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                         .background(
                             Rectangle()
-                                .fill(Color.cardBackground)
+                                .fill(Color(.secondarySystemBackground))
                                 .overlay(
                                     Rectangle()
                                         .frame(height: 1)
-                                        .foregroundColor(.deepMaroon)
+                                        .foregroundColor(Color(.separator))
                                         .offset(y: 20)
                                 )
                         )
@@ -159,16 +136,16 @@ struct PaymentModal: View {
                         isPresented = false
                     }) {
                         Text("cancel".localized(using: languageManager))
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 16, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.cardBackground)
+                                    .fill(Color(.secondarySystemBackground))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                            .stroke(Color(.separator), lineWidth: 1)
                                     )
                             )
                     }
@@ -177,13 +154,13 @@ struct PaymentModal: View {
                         addPayment()
                     }) {
                         Text("add_payment".localized(using: languageManager))
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.primary)
                             .font(.system(size: 16, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.deepMaroon)
+                                    .fill(Color.accentColor)
                             )
                     }
                     .disabled(paymentAmount.isEmpty || !isAmountValid)
@@ -192,8 +169,8 @@ struct PaymentModal: View {
             .padding(24)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.black.opacity(0.8))
-                    .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
+                    .fill(Color(.systemBackground))
+                    .shadow(color: Color(.label).opacity(0.1), radius: 20, x: 0, y: 10)
             )
             .padding(.horizontal, 40)
         }

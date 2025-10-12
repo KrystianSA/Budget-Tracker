@@ -13,31 +13,31 @@ struct AddRecurringExpenseModal: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.darkBackground
+                Color(.systemBackground)
                     .ignoresSafeArea()
                 
                 VStack(spacing: 24) {
                     Text("add_recurring_expense".localized(using: languageManager))
-                        .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                         .font(.system(size: 24, weight: .bold))
                         .padding(.top, 20)
                     
                     // Nazwa wydatku (Expense name) - Moved to top
                     VStack(alignment: .leading, spacing: 8) {
                         Text("expense_name".localized(using: languageManager))
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.primary)
                             .font(.system(size: 16, weight: .medium))
                         
                         TextField("expense_name".localized(using: languageManager), text: $expenseName)
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.primary)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.cardBackground)
+                                    .fill(Color(.secondarySystemBackground))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                            .stroke(Color(.separator), lineWidth: 1)
                                     )
                             )
                     }
@@ -45,20 +45,20 @@ struct AddRecurringExpenseModal: View {
                     // Kwota (Amount)
                     VStack(alignment: .leading, spacing: 8) {
                         Text("amount".localized(using: languageManager))
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.primary)
                             .font(.system(size: 16, weight: .medium))
                         
                         TextField("0.00", text: $setAmount)
                             .keyboardType(.decimalPad)
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.primary)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.cardBackground)
+                                    .fill(Color(.secondarySystemBackground))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                            .stroke(Color(.separator), lineWidth: 1)
                                     )
                             )
                             .onChange(of: setAmount) { _, newValue in
@@ -66,7 +66,7 @@ struct AddRecurringExpenseModal: View {
                             }
                         
                         if !isAmountValid {
-                            Text("only_digits_allowed".localized(using: languageManager))
+                        Text("only_digits_allowed".localized(using: languageManager))
                                 .foregroundColor(.red)
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(.leading, 4)
@@ -79,13 +79,13 @@ struct AddRecurringExpenseModal: View {
                     // Save Button
                     Button(action: saveExpense) {
                         Text("save".localized(using: languageManager))
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.primary)
                             .font(.system(size: 18, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.deepMaroon)
+                                    .fill(Color.accentColor)
                             )
                     }
                     .disabled(expenseName.isEmpty || setAmount.isEmpty || !isAmountValid)
@@ -99,7 +99,7 @@ struct AddRecurringExpenseModal: View {
                     Button("cancel".localized(using: languageManager)) {
                         isPresented = false
                     }
-                    .foregroundColor(.textSecondary)
+                    .foregroundColor(.secondary)
                 }
             }
         }

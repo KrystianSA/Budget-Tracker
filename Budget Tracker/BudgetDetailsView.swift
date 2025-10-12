@@ -9,14 +9,14 @@ struct BudgetDetailsView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                AppTheme.color(.surfaceBase)
+                Color(.systemBackground)
                     .ignoresSafeArea()
                 
                 VStack(spacing: 24) {
                     // Header
                     HStack {
                         Text("budget_details".localized(using: languageManager))
-                            .foregroundColor(AppTheme.color(.textPrimary))
+                            .foregroundColor(.primary)
                             .font(.system(size: 24, weight: .bold))
                         
                         Spacer()
@@ -25,7 +25,7 @@ struct BudgetDetailsView: View {
                             isPresented = false
                         }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(AppTheme.color(.textSecondary))
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 24))
                         }
                     }
@@ -35,17 +35,18 @@ struct BudgetDetailsView: View {
                     // Monthly Budget Section
                     VStack(spacing: 12) {
                         Text("remaining_monthly_budget".localized(using: languageManager))
-                            .foregroundColor(AppTheme.color(.textSecondary))
+                            .foregroundColor(.secondary)
                             .font(.system(size: 16, weight: .medium))
                         
                         Text("\(remainingMonthlyBudget, specifier: "%.0f") zł")
-                            .foregroundColor(AppTheme.color(.textPrimary))
+                            .foregroundColor(.primary)
                             .font(.system(size: 48, weight: .bold))
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 24)
                     .frame(maxWidth: .infinity)
-                    .appCard()
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(16)
                     .padding(.horizontal, 20)
                     
                     

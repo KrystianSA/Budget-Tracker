@@ -16,7 +16,7 @@ struct RecurringExpensesView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.darkBackground
+                Color(.systemBackground)
                     .ignoresSafeArea()
                 
                 VStack(spacing: 0) {
@@ -25,21 +25,24 @@ struct RecurringExpensesView: View {
                         HStack {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("recurring_expenses".localized(using: languageManager))
-                                    .foregroundColor(.textPrimary)
+                                    .foregroundColor(.primary)
                                     .font(.system(size: 28, weight: .bold))
                                 
                                 Text("manage_recurring_expenses".localized(using: languageManager))
-                                    .foregroundColor(.textSecondary)
+                                    .foregroundColor(.secondary)
                                     .font(.system(size: 16, weight: .medium))
                             }
                             
                             Spacer()
                             
                             Button(action: {
-                                showingAddExpense = true
+                                guard !showingAddExpense else { return }
+                                DispatchQueue.main.async {
+                                    showingAddExpense = true
+                                }
                             }) {
                                 Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.deepMaroon)
+                                    .foregroundColor(.accentColor)
                                     .font(.system(size: 24))
                             }
                         }
@@ -52,19 +55,19 @@ struct RecurringExpensesView: View {
                     if recurringExpenses.isEmpty {
                         VStack(spacing: 16) {
                             Image(systemName: "list.bullet.rectangle")
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 48))
                             
                             Text("no_recurring_expenses".localized(using: languageManager))
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 18, weight: .medium))
                             
                             Text("add_first_recurring_expense".localized(using: languageManager))
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 14, weight: .regular))
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.darkBackground)
+                        .background(Color(.systemBackground))
                         .padding(.top, 24)
                     } else {
                         ScrollView {
@@ -165,6 +168,7 @@ struct RecurringExpensesView: View {
 struct CondensedExpenseCardView: View {
     let expense: RecurringExpense
     @EnvironmentObject var languageManager: LanguageManager
+    @Environment(\.modelContext) private var modelContext
     
     private var progressPercentage: Double {
         guard let amountSpent = expense.amountSpent, amountSpent > 0 else { return 0.0 }
@@ -179,40 +183,52 @@ struct CondensedExpenseCardView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(spacing: 8) {
                             Text(expense.expenseName)
-                                .foregroundColor(.textPrimary)
+                                .foregroundColor(.primary)
                                 .font(.system(size: 16, weight: .semibold))
                                 .lineLimit(1)
                             
                             if let displayNumber = expense.displayNumber {
                                 Text("\(displayNumber)")
-                                    .foregroundColor(.textSecondary)
+                                    .foregroundColor(.secondary)
                                     .font(.system(size: 12, weight: .medium))
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
                                     .background(
                                         RoundedRectangle(cornerRadius: 4)
-                                            .fill(Color.textSecondary.opacity(0.2))
+                                            .fill(Color(.separator).opacity(0.2))
                                     )
                             }
                         }
                         
                         Text(String(format: "%.2f zł", expense.setAmount))
-                            .foregroundColor(.darkOrange)
+                            .foregroundColor(.accentColor)
                             .font(.system(size: 14, weight: .bold))
                     }
                     
                     Spacer()
                     
-                    // Status indicator
-                    if expense.isSpent {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                            .font(.system(size: 24))
-                    } else if let amountSpent = expense.amountSpent, amountSpent > 0 {
-                        Text(String(format: "%.0f%%", progressPercentage * 100))
-                            .foregroundColor(.textSecondary)
-                            .font(.system(size: 12, weight: .medium))
+                    // Checkbox on the right side
+                    Button(action: {
+                        // Toggle payment status
+                        expense.isSpent.toggle()
+                        if expense.isSpent {
+                            expense.amountSpent = expense.setAmount
+                        } else {
+                            expense.amountSpent = nil
+                        }
+                        expense.updatedAt = Date()
+                        
+                        do {
+                            try modelContext.save()
+                        } catch {
+                            print("Error updating payment status: \(error)")
+                        }
+                    }) {
+                        Image(systemName: expense.isSpent ? "checkmark.circle.fill" : "circle")
+                            .foregroundColor(expense.isSpent ? .green : .secondary)
+                            .font(.system(size: 24, weight: .medium))
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
                 
                 // Progress bar (only show if not fully paid and has some progress)
@@ -220,24 +236,24 @@ struct CondensedExpenseCardView: View {
                     VStack(spacing: 4) {
                         HStack {
                             Text("paid_amount".localized(using: languageManager))
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 12, weight: .medium))
                             
                             Spacer()
                             
                             Text(String(format: "%.2f zł", amountSpent))
-                                .foregroundColor(.textSecondary)
+                                .foregroundColor(.secondary)
                                 .font(.system(size: 12, weight: .medium))
                         }
                         
                         GeometryReader { geometry in
                             ZStack(alignment: .leading) {
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(Color.textSecondary.opacity(0.2))
+                                    .fill(Color(.separator).opacity(0.2))
                                     .frame(height: 6)
                                 
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(Color.deepMaroon)
+                                    .fill(Color.accentColor)
                                     .frame(width: geometry.size.width * progressPercentage, height: 6)
                             }
                         }
@@ -249,7 +265,7 @@ struct CondensedExpenseCardView: View {
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.cardBackground)
+                    .fill(Color(.secondarySystemBackground))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(expense.isSpent ? Color.green.opacity(0.3) : Color.gray.opacity(0.2), lineWidth: 1)
@@ -272,7 +288,7 @@ struct RecurringExpenseDetailView: View {
     
     var body: some View {
         ZStack {
-            Color.darkBackground
+            Color(.systemBackground)
                 .ignoresSafeArea()
             
             ScrollView {
@@ -284,32 +300,36 @@ struct RecurringExpenseDetailView: View {
                                 presentationMode.wrappedValue.dismiss()
                             }) {
                                 Image(systemName: "chevron.left")
-                                    .foregroundColor(.textPrimary)
+                                    .foregroundColor(.primary)
                                     .font(.system(size: 18, weight: .medium))
                             }
                             
                             Spacer()
                             
                             Text("expense_details".localized(using: languageManager))
-                                .foregroundColor(.textPrimary)
+                                .foregroundColor(.primary)
                                 .font(.system(size: 18, weight: .semibold))
                             
                             Spacer()
                             
                             Button(action: {
-                                showingEditExpense = true
+                                guard !showingEditExpense else { return }
+                                DispatchQueue.main.async {
+                                    showingEditExpense = true
+                                }
                             }) {
                                 Image(systemName: "pencil")
-                                    .foregroundColor(.textPrimary)
+                                    .foregroundColor(expense.isSpent ? .secondary : .primary)
                                     .font(.system(size: 16, weight: .medium))
                             }
+                            .disabled(expense.isSpent)
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 20)
                         
                         // Expense name
                         Text(expense.expenseName)
-                            .foregroundColor(.textPrimary)
+                            .foregroundColor(.primary)
                             .font(.system(size: 24, weight: .bold))
                             .multilineTextAlignment(.center)
                     }
@@ -320,11 +340,11 @@ struct RecurringExpenseDetailView: View {
                         HStack {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("total_amount".localized(using: languageManager))
-                                    .foregroundColor(.textSecondary)
+                                    .foregroundColor(.secondary)
                                     .font(.system(size: 14, weight: .medium))
                                 
                                 Text(String(format: "%.2f zł", expense.setAmount))
-                                    .foregroundColor(.darkOrange)
+                                    .foregroundColor(.accentColor)
                                     .font(.system(size: 20, weight: .bold))
                             }
                             
@@ -333,7 +353,7 @@ struct RecurringExpenseDetailView: View {
                             if let amountSpent = expense.amountSpent, amountSpent > 0 {
                                 VStack(alignment: .trailing, spacing: 8) {
                                     Text("spent".localized(using: languageManager))
-                                        .foregroundColor(.textSecondary)
+                                        .foregroundColor(.secondary)
                                         .font(.system(size: 14, weight: .medium))
                                     
                                     Text(String(format: "%.2f zł", amountSpent))
@@ -348,13 +368,13 @@ struct RecurringExpenseDetailView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
                                     Text("progress".localized(using: languageManager))
-                                        .foregroundColor(.textSecondary)
+                                        .foregroundColor(.secondary)
                                         .font(.system(size: 14, weight: .medium))
                                     
                                     Spacer()
                                     
                                     Text(String(format: "%.0f%%", (amountSpent / expense.setAmount) * 100))
-                                        .foregroundColor(.textSecondary)
+                                        .foregroundColor(.secondary)
                                         .font(.system(size: 14, weight: .medium))
                                 }
                                 
@@ -366,7 +386,7 @@ struct RecurringExpenseDetailView: View {
                                             .cornerRadius(4)
                                         
                                         Rectangle()
-                                            .fill(Color.deepMaroon)
+                                            .fill(Color.accentColor)
                                             .frame(width: geometry.size.width * min(amountSpent / expense.setAmount, 1.0), height: 8)
                                             .cornerRadius(4)
                                     }
@@ -390,11 +410,11 @@ struct RecurringExpenseDetailView: View {
                             } else {
                                 HStack(spacing: 8) {
                                     Image(systemName: "circle")
-                                        .foregroundColor(.textSecondary)
+                                        .foregroundColor(.secondary)
                                         .font(.system(size: 20))
                                     
                                     Text("unpaid".localized(using: languageManager))
-                                        .foregroundColor(.textSecondary)
+                                        .foregroundColor(.secondary)
                                         .font(.system(size: 16, weight: .medium))
                                 }
                             }
@@ -405,7 +425,10 @@ struct RecurringExpenseDetailView: View {
                         // Action buttons
                         HStack(spacing: 16) {
                             Button(action: {
-                                showingPaymentModal = true
+                                guard !showingPaymentModal else { return }
+                                DispatchQueue.main.async {
+                                    showingPaymentModal = true
+                                }
                             }) {
                                 HStack(spacing: 8) {
                                     Image(systemName: "plus.circle")
@@ -413,18 +436,19 @@ struct RecurringExpenseDetailView: View {
                                     Text("add_payment".localized(using: languageManager))
                                         .font(.system(size: 16, weight: .medium))
                                 }
-                                .foregroundColor(.textPrimary)
+                                .foregroundColor(expense.isSpent ? .secondary : .primary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.cardBackground)
+                                        .fill(Color(.secondarySystemBackground))
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 8)
-                                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                                .stroke(Color(.separator), lineWidth: 1)
                                         )
                                 )
                             }
+                            .disabled(expense.isSpent)
                             
                             Button(action: {
                                 showingDeleteAlert = true
@@ -435,10 +459,10 @@ struct RecurringExpenseDetailView: View {
                                     .frame(width: 44, height: 44)
                                     .background(
                                         RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.cardBackground)
+                                            .fill(Color(.secondarySystemBackground))
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 8)
-                                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                                    .stroke(Color(.separator), lineWidth: 1)
                                             )
                                     )
                             }
@@ -447,7 +471,7 @@ struct RecurringExpenseDetailView: View {
                     .padding(20)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.cardBackground)
+                            .fill(Color(.secondarySystemBackground))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color.gray.opacity(0.2), lineWidth: 1)
@@ -511,12 +535,12 @@ struct RecurringExpenseCardView: View {
             // Header with icon and name
             HStack(spacing: 12) {
                 Image(systemName: "checklist")
-                    .foregroundColor(.deepMaroon)
+                    .foregroundColor(.accentColor)
                     .font(.system(size: 20, weight: .medium))
                     .frame(width: 24)
                 
                 Text(expense.expenseName)
-                    .foregroundColor(.textPrimary)
+                        .foregroundColor(.primary)
                     .font(.system(size: 16, weight: .semibold))
                     .lineLimit(1)
                 
@@ -529,7 +553,7 @@ struct RecurringExpenseCardView: View {
                         .font(.system(size: 20))
                 } else {
                     Image(systemName: "circle")
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.secondary)
                         .font(.system(size: 20))
                 }
             }
@@ -538,11 +562,11 @@ struct RecurringExpenseCardView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("total_amount".localized(using: languageManager))
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.secondary)
                         .font(.system(size: 12, weight: .medium))
                     
                     Text(String(format: "%.2f zł", expense.setAmount))
-                        .foregroundColor(.darkOrange)
+                        .foregroundColor(.accentColor)
                         .font(.system(size: 18, weight: .bold))
                 }
                 
@@ -551,7 +575,7 @@ struct RecurringExpenseCardView: View {
                 if let amountSpent = expense.amountSpent, amountSpent > 0 {
                     VStack(alignment: .trailing, spacing: 4) {
                         Text("spent".localized(using: languageManager))
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 12, weight: .medium))
                         
                         Text(String(format: "%.2f zł", amountSpent))
@@ -566,13 +590,13 @@ struct RecurringExpenseCardView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text("progress".localized(using: languageManager))
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 12, weight: .medium))
                         
                         Spacer()
                         
                         Text(String(format: "%.0f%%", (amountSpent / expense.setAmount) * 100))
-                            .foregroundColor(.textSecondary)
+                            .foregroundColor(.secondary)
                             .font(.system(size: 12, weight: .medium))
                     }
                     
@@ -584,7 +608,7 @@ struct RecurringExpenseCardView: View {
                                 .cornerRadius(3)
                             
                             Rectangle()
-                                .fill(Color.deepMaroon)
+                                .fill(Color.accentColor)
                                 .frame(width: geometry.size.width * min(amountSpent / expense.setAmount, 1.0), height: 6)
                                 .cornerRadius(3)
                         }
@@ -602,15 +626,15 @@ struct RecurringExpenseCardView: View {
                         Text("add_payment".localized(using: languageManager))
                             .font(.system(size: 14, weight: .medium))
                     }
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.cardBackground)
+                            .fill(Color(.secondarySystemBackground))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                    .stroke(Color(.separator), lineWidth: 1)
                             )
                     )
                 }
@@ -619,18 +643,19 @@ struct RecurringExpenseCardView: View {
                 
                 Button(action: onEdit) {
                     Image(systemName: "pencil")
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(expense.isSpent ? .secondary : .primary)
                         .font(.system(size: 16, weight: .medium))
                         .frame(width: 32, height: 32)
                         .background(
                             Circle()
-                                .fill(Color.cardBackground)
+                                .fill(Color(.secondarySystemBackground))
                                 .overlay(
                                     Circle()
-                                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                        .stroke(Color(.separator), lineWidth: 1)
                                 )
                         )
                 }
+                .disabled(expense.isSpent)
                 
                 Button(action: {
                     showingDeleteAlert = true
@@ -641,10 +666,10 @@ struct RecurringExpenseCardView: View {
                         .frame(width: 32, height: 32)
                         .background(
                             Circle()
-                                .fill(Color.cardBackground)
+                                .fill(Color(.secondarySystemBackground))
                                 .overlay(
                                     Circle()
-                                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                        .stroke(Color(.separator), lineWidth: 1)
                                 )
                         )
                 }
@@ -653,7 +678,7 @@ struct RecurringExpenseCardView: View {
         .padding(20)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.cardBackground)
+                .fill(Color(.secondarySystemBackground))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.gray.opacity(0.2), lineWidth: 1)
