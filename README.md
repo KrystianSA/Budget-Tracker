@@ -1,5 +1,7 @@
 # Budget Tracker iOS App
 
+<img width="334" height="652" alt="Zrzut ekranu 2025-10-13 o 09 48 15" src="https://github.com/user-attachments/assets/81d02c21-e417-404f-bf7b-afab9ad96e47" />
+
 A minimalist, dark-themed iOS budget tracking application built with SwiftUI and SwiftData.
 
 ## Features
