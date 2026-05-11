@@ -104,8 +104,6 @@ A minimalist, dark-themed iOS budget tracking application built with SwiftUI and
 - **Smart Calculations**: Uses Calendar APIs for accurate day counting
 - **Input Validation**: Ensures budget amount is >= 30 zł with real-time feedback
 
-// TODO: placeholder for removed "Expenses to Pay" module
-
 ### Custom Transaction System
 - **Circular Dollar Button**: Perfectly round green button with `dollarsign.circle.fill` icon for adding custom transactions
 - **Modal View**: Dedicated `CustomTransactionView` for entering transaction details (title removed for cleaner interface)
